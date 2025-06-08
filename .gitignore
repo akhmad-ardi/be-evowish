@@ -1,50 +1,37 @@
-# Binaries for programs and plugins
+# Binaries
+/main
+/tmp/
 *.exe
 *.exe~
 *.dll
 *.so
 *.dylib
+
+# Go build artifacts
 *.test
 *.out
 
-# Output of the go coverage tool
-*.coverprofile
+# Output dari Air
+air.toml
 
-# Dependency directories (vendor/)
+# Logs
+*.log
+
+# Dependency caches
 vendor/
+.gomodcache/
+.gocache/
 
-# Go workspace file
-go.work
-go.work.sum
-
-# Go modules
-go.sum
-
-# IDE/editor config files
-.vscode/
+# IDE / Editor
 .idea/
+.vscode/
 *.swp
+*.swo
 
-# OS generated files
+# OS files
 .DS_Store
 Thumbs.db
 
-# Logs and temporary files
-*.log
-*.tmp
-
-# Environment/config files
+# Env files (jika ada konfigurasi rahasia)
 .env
 .env.*
-config.yaml
-config.local.yaml
-
-# Cache
-**/__pycache__/
-**/.pytest_cache/
-*.cache/
-.cache/
-*.bak
-
-# GIN-specific
-gin.log
