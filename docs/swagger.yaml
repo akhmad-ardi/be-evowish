@@ -1,0 +1,89 @@
+basePath: /
+definitions:
+  validations.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  validations.LoginResponse:
+    properties:
+      token:
+        type: string
+    type: object
+  validations.RegisterRequest:
+    properties:
+      confirm_password:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        minLength: 6
+        type: string
+    required:
+    - confirm_password
+    - email
+    - name
+    - password
+    type: object
+  validations.RegisterResponse:
+    properties:
+      message:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Backend API untuk platform undangan digital multievent (Evowish).
+  title: Evowish API
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Login Request data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/validations.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/validations.LoginResponse'
+      summary: Login
+      tags:
+      - Auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Register Request
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/validations.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/validations.RegisterResponse'
+      summary: Register
+      tags:
+      - Auth
+swagger: "2.0"
