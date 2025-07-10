@@ -1,0 +1,34 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+*.o
+
+# Output of the Go build tool
+/bin/
+/tmp/
+
+# Logs
+*.log
+
+# Dependency directories (vendor)
+vendor/
+
+# IDE/editor settings
+.vscode/
+.idea/
+*.swp
+*~
+
+# Env files
+.env
+.env.*
+!.env.example
+
+# air binary and config (optional if you're tracking air.toml)
+.air
+air.log
