@@ -1,6 +1,7 @@
 package main
 
 import (
+	"be-evowish/config"
 	"be-evowish/routes"
 	"log"
 
@@ -14,12 +15,17 @@ func main() {
 		log.Fatal("Gagal memuat .env file")
 	}
 
+	config.ConnectDatabase()
+
 	app := fiber.New()
-	app.Get("/api", func(c *fiber.Ctx) error {
+
+	// Main route
+	app.Get("/", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{
-			"data": "Hello World",
+			"message": "API for evowish",
 		})
 	})
+
 	routes.AuthRoutes(app)
 
 	log.Fatal(app.Listen(":3001"))
