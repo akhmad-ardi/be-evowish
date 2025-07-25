@@ -2,7 +2,9 @@ package config
 
 import (
 	"fmt"
+	"log"
 	"os"
+	"time"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -22,8 +24,15 @@ func ConnectDatabase() {
 	)
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
-		Logger:      logger.Default.LogMode(logger.Info),
-		PrepareStmt: false,
+		Logger: logger.New(
+			log.New(os.Stdout, "\r\n", log.LstdFlags), // Output
+			logger.Config{
+				SlowThreshold: time.Second, // ⚠️ ini yang kamu maksud
+				LogLevel:      logger.Warn,
+				Colorful:      true,
+			},
+		),
+		PrepareStmt: true,
 	})
 	if err != nil {
 		panic(fmt.Sprintf("[error] failed to initialize database, got error %v", err))

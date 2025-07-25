@@ -1,8 +1,8 @@
 package main
 
 import (
-	"be-evowish/config"
-	"be-evowish/routes"
+	"be-undangan-digital/config"
+	"be-undangan-digital/routes"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
@@ -22,7 +22,7 @@ func main() {
 	// Main route
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{
-			"message": "API for evowish",
+			"message": "API for Undangan Digital",
 		})
 	})
 

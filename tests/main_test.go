@@ -7,7 +7,7 @@ import (
 )
 
 func TestMainApi(t *testing.T) {
-	app := SetupApp()
+	app, _ := SetupApp()
 
 	req := httptest.NewRequest(http.MethodGet, "/api", nil)
 

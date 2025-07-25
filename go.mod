@@ -1,4 +1,4 @@
-module be-evowish
+module be-undangan-digital
 
 go 1.23.0
 

@@ -1,0 +1,84 @@
+@baseUrl = http://localhost:3001/api
+
+# Register Success
+POST {{baseUrl}}/user/register
+Content-Type: application/json
+
+{
+  "name": "Ardi",
+  "email": "ardi@example.com",
+  "password": "password123",
+  "confirm_password": "password123"
+}
+
+###
+
+# Register Fail [Email is invalid]
+POST {{baseUrl}}/user/register
+Content-Type: application/json 
+
+{
+  "name": "Ardi",
+  "email": "Bad Email",
+  "password": "123456",
+  "confirm_password": "123456"
+}
+
+###
+
+# Register Fail [Password is not match]
+POST {{baseUrl}}/user/register
+Content-Type: application/json 
+
+{
+  "name": "Ardi",
+  "email": "ardi@example.com",
+  "password": "123450",
+  "confirm_password": "123456"
+}
+
+###
+
+# Register Fail [Input required]
+POST {{baseUrl}}/user/register
+Content-Type: application/json 
+
+{
+  "name": "",
+  "email": "",
+  "password": "",
+  "confirm_password": ""
+}
+
+###
+
+# Login success
+POST {{baseUrl}}/user/login
+Content-Type: application/json
+
+{
+  "email": "ardi@example.com",
+  "password": "password123"
+}
+
+###
+
+# Login Fail [Email is invalid]
+POST {{baseUrl}}/user/login
+Content-Type: application/json
+
+{
+  "email": "Bad email",
+  "password": "password123"
+}
+
+###
+
+# Login Fail [Input required]
+POST {{baseUrl}}/user/login
+Content-Type: application/json
+
+{
+  "email": "",
+  "password": ""
+}

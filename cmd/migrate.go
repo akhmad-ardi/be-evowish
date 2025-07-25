@@ -1,8 +1,8 @@
 package main
 
 import (
-	"be-evowish/config"
-	"be-evowish/models"
+	"be-undangan-digital/config"
+	"be-undangan-digital/models"
 	"log"
 
 	"github.com/joho/godotenv"

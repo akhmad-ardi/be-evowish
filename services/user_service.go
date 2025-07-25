@@ -1,21 +1,35 @@
 package services
 
 import (
-	"be-evowish/config"
-	"be-evowish/lib"
-	"be-evowish/models"
+	"be-undangan-digital/config"
+	"be-undangan-digital/lib"
+	"be-undangan-digital/models"
 	"errors"
+	"fmt"
+
+	gonanoid "github.com/matoous/go-nanoid/v2"
 )
 
-func RegisterUserService(name string, email string, password string) (*models.User, error) {
-	var existing models.User
-	if err := config.DB.Where("email = ?", email).First(&existing).Error; err == nil {
-		return nil, errors.New("email already used")
+func CreateUserService(name string, email string, password string) (*models.User, error) {
+	var userAlreadyExist models.User
+
+	err := config.DB.Where("email = ?", email).First(&userAlreadyExist).Error
+	if err != nil {
+		return nil, errors.New("email sudah digunakan")
 	}
 
-	passwordHash, _ := lib.HashPassword(password)
+	passwordHash, err := lib.HashPassword(password)
+	if err != nil {
+		return nil, err
+	}
+
+	id_user, err := gonanoid.New(8)
+	if err != nil {
+		return nil, err
+	}
 
 	user := &models.User{
+		IdUser:   id_user,
 		Name:     name,
 		Email:    email,
 		Password: passwordHash,
@@ -26,4 +40,15 @@ func RegisterUserService(name string, email string, password string) (*models.Us
 	}
 
 	return user, nil
+}
+
+func GetUserByField(field string, value interface{}) (*models.User, error) {
+	var user models.User
+
+	err := config.DB.Where(fmt.Sprintf("%s = ?", field), value).First(&user).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
 }
