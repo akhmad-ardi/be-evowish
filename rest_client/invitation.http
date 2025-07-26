@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3001/api
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTM3NzQ2MzEsImlkX3VzZXIiOiJ3dFJRRTlpaCJ9.hc2yl_xDgWPoHM1g29NGZSRmJvRp8QSYQJEAXO4ceXM
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTM3ODg5OTUsImlkX3VzZXIiOiJabWMtWGYtbiJ9.ZUsw_94izA3Dr8LQxS7BXOpRKzjZw7b3am5KYS9qTeg
 
 # Login success
 POST {{baseUrl}}/auth/login
@@ -25,7 +25,8 @@ Authorization: {{token}}
   "location": "Test",
   "description": "Test",
   "primary_color": "Test",
-  "secondary_color": "Test"
+  "secondary_color": "Test",
+  "background_image": "wedding_1.jpg"
 }
 
 ###
@@ -44,4 +45,33 @@ Authorization: {{token}}
   "description": "",
   "primary_color": "",
   "secondary_color": ""
+}
+
+###
+
+# Get Invitations
+GET {{baseUrl}}/invitation
+Content-Type: application/json
+Authorization: {{token}}
+
+###
+
+# Generate Link Success
+POST {{baseUrl}}/invitation/generate_link
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "id_invitation": "ayvBVfF0"
+}
+
+###
+
+# Generate Link Fail
+POST {{baseUrl}}/invitation/generate_link
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "id_invitation": "ayvBfF0"
 }

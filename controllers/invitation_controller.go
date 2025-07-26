@@ -5,18 +5,17 @@ import (
 	"be-undangan-digital/requests"
 	"be-undangan-digital/services"
 	"be-undangan-digital/validations"
+	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
 )
 
 func CreateInvitation(c *fiber.Ctx) error {
-	LocalsIdUser := c.Locals("id_user")
-	IdUser, ok := LocalsIdUser.(string)
-	if !ok {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"message": "Unauthorized: ID user tidak valid",
-		})
+	IdUser, err := lib.GetUserIDFromContext(c)
+	if err != nil {
+		return err
 	}
 
 	req := new(requests.CreateInvitationRequest)
@@ -59,7 +58,48 @@ func CreateInvitation(c *fiber.Ctx) error {
 }
 
 func GetInvitations(c *fiber.Ctx) error {
+	IdUser, err := lib.GetUserIDFromContext(c)
+	if err != nil {
+		return err
+	}
+
+	invitations, err := services.GetInvitations(IdUser)
+	if err != nil {
+		return lib.RespondError(c, http.StatusInternalServerError, "Query error")
+	}
+
 	return c.Status(http.StatusOK).JSON(fiber.Map{
-		"message": "Undangan berhasil didapat",
+		"invitations": invitations,
+	})
+}
+
+func GenerateLink(c *fiber.Ctx) error {
+	req := requests.GenerateLinkRequest{
+		IdInvitation: c.Params("id_invitation"),
+	}
+
+	if err := c.BodyParser(&req); err != nil {
+		return lib.RespondError(c, http.StatusBadRequest, "Permintaan tidak valid")
+	}
+
+	validation_errors := validations.ValidateGenerateLinkRequest(req)
+	if validation_errors != nil {
+		return lib.RespondValidationError(c, validation_errors)
+	}
+
+	invitation, err := services.GetInvitation(req.IdInvitation)
+	if err != nil {
+		return lib.RespondError(c, http.StatusNotFound, err.Error())
+	}
+
+	baseURL := os.Getenv("FRONT_END")
+	if baseURL == "" {
+		return lib.RespondError(c, http.StatusInternalServerError, "Env front end belum diset")
+	}
+
+	link := fmt.Sprintf("%s/invitation/%s", baseURL, invitation.IdInvitation)
+
+	return c.Status(http.StatusOK).JSON(fiber.Map{
+		"link": link,
 	})
 }

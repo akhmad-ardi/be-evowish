@@ -38,3 +38,13 @@ func ValidateCreateInvitationRequest(data requests.CreateInvitationRequest) map[
 
 	return lib.ValidateWithCustomMessages(data, messages)
 }
+
+func ValidateGenerateLinkRequest(data requests.GenerateLinkRequest) map[string]string {
+	messages := map[string]map[string]string{
+		"IdInvitation": {
+			"required": "Id invitation wajib diisi",
+		},
+	}
+
+	return lib.ValidateWithCustomMessages(data, messages)
+}

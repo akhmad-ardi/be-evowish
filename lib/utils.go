@@ -11,6 +11,15 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+func GetUserIDFromContext(c *fiber.Ctx) (string, error) {
+	localsID := c.Locals("id_user")
+	idUser, ok := localsID.(string)
+	if !ok || idUser == "" {
+		return "", fiber.NewError(fiber.StatusUnauthorized, "Unauthorized: ID user tidak valid")
+	}
+	return idUser, nil
+}
+
 func RespondError(c *fiber.Ctx, code int, message string) error {
 	return c.Status(code).JSON(fiber.Map{
 		"message_error": message,

@@ -11,3 +11,7 @@ type CreateInvitationRequest struct {
 	SecondaryColor  string `json:"secondary_color" validate:"required"`
 	BackgroundImage string `json:"background_image"`
 }
+
+type GenerateLinkRequest struct {
+	IdInvitation string `json:"id_invitation" validate:"required"`
+}

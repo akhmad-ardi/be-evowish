@@ -11,6 +11,7 @@ func InvitationRoutes(app *fiber.App) {
 	routes := app.Group("/api/invitation")
 
 	routes.Post("/create", middleware.JWTProtected(), controllers.CreateInvitation)
-	routes.Get("/", middleware.JWTProtected(), controllers.GetInvitations)
+	routes.Post("/generate_link", middleware.JWTProtected(), controllers.GenerateLink)
 
+	routes.Get("/", middleware.JWTProtected(), controllers.GetInvitations)
 }
