@@ -7,7 +7,7 @@ import (
 )
 
 func AuthRoutes(app *fiber.App) {
-	routes := app.Group("/api/user")
+	routes := app.Group("/api/auth")
 
 	routes.Post("/register", controllers.Register)
 	routes.Post("/login", controllers.Login)

@@ -2,18 +2,17 @@ package config
 
 import (
 	"fmt"
-	"log"
 	"os"
-	"time"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 )
 
 var DB *gorm.DB
 
 func ConnectDatabase() {
+	DB = nil
+
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s pool_mode=%s statement_cache_mode=describe sslmode=require",
 		os.Getenv("DB_HOST"),
 		os.Getenv("DB_USER"),
@@ -23,19 +22,12 @@ func ConnectDatabase() {
 		os.Getenv("DB_POOL_MODE"),
 	)
 
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
-		Logger: logger.New(
-			log.New(os.Stdout, "\r\n", log.LstdFlags), // Output
-			logger.Config{
-				SlowThreshold: time.Second, // ⚠️ ini yang kamu maksud
-				LogLevel:      logger.Warn,
-				Colorful:      true,
-			},
-		),
-		PrepareStmt: true,
-	})
+	db, err := gorm.Open(postgres.New(postgres.Config{
+		DSN:                  dsn,
+		PreferSimpleProtocol: true,
+	}), &gorm.Config{})
 	if err != nil {
-		panic(fmt.Sprintf("[error] failed to initialize database, got error %v", err))
+		panic(fmt.Sprintf("[error] failed to initialize database, got error: %v", err))
 	}
 
 	DB = db

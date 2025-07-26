@@ -1,0 +1,47 @@
+@baseUrl = http://localhost:3001/api
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTM3NzQ2MzEsImlkX3VzZXIiOiJ3dFJRRTlpaCJ9.hc2yl_xDgWPoHM1g29NGZSRmJvRp8QSYQJEAXO4ceXM
+
+# Login success
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "ardi@example.com",
+  "password": "password123"
+}
+
+###
+
+# Invitation Success
+POST {{baseUrl}}/invitation/create
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "id_template": "UNDANGN1",
+  "title": "Test",
+  "date": "2025-08-01",
+  "time": "15:10:00",
+  "location": "Test",
+  "description": "Test",
+  "primary_color": "Test",
+  "secondary_color": "Test"
+}
+
+###
+
+# Invitation Fail [Input Required]
+POST {{baseUrl}}/invitation/create
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "id_template": "",
+  "title": "",
+  "date": "",
+  "time": "",
+  "location": "",
+  "description": "",
+  "primary_color": "",
+  "secondary_color": ""
+}

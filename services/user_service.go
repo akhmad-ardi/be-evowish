@@ -4,21 +4,26 @@ import (
 	"be-undangan-digital/config"
 	"be-undangan-digital/lib"
 	"be-undangan-digital/models"
+	"be-undangan-digital/requests"
 	"errors"
 	"fmt"
 
 	gonanoid "github.com/matoous/go-nanoid/v2"
+	"gorm.io/gorm"
 )
 
-func CreateUserService(name string, email string, password string) (*models.User, error) {
+func CreateUserService(data *requests.RegisterRequest) (*models.User, error) {
 	var userAlreadyExist models.User
 
-	err := config.DB.Where("email = ?", email).First(&userAlreadyExist).Error
-	if err != nil {
+	tx := config.DB.Where("email = ?", data.Email).Take(&userAlreadyExist)
+	if tx.Error == nil && tx.RowsAffected > 0 {
 		return nil, errors.New("email sudah digunakan")
 	}
+	if tx.Error != nil && !errors.Is(tx.Error, gorm.ErrRecordNotFound) {
+		return nil, fmt.Errorf("gagal mengecek email: %w", tx.Error)
+	}
 
-	passwordHash, err := lib.HashPassword(password)
+	passwordHashed, err := lib.HashPassword(data.Password)
 	if err != nil {
 		return nil, err
 	}
@@ -30,9 +35,9 @@ func CreateUserService(name string, email string, password string) (*models.User
 
 	user := &models.User{
 		IdUser:   id_user,
-		Name:     name,
-		Email:    email,
-		Password: passwordHash,
+		Name:     data.Name,
+		Email:    data.Email,
+		Password: passwordHashed,
 	}
 
 	if err := config.DB.Create(user).Error; err != nil {

@@ -5,14 +5,14 @@ import (
 )
 
 type InvitationLink struct {
-	IdInvitationLink string    `json:"id_invitation_link" gorm:"primaryKey;size:10"`
-	IdInvitation     string    `json:"id_invitation"`
-	Link             string    `json:"link"`
-	IsActive         string    `json:"is_active"`
+	IdInvitationLink string    `json:"id_invitation_link" gorm:"primaryKey;type:char(8)"`
+	IdInvitation     string    `json:"id_invitation" gorm:"type:char(8)"`
+	Link             string    `json:"link" gorm:"type:varchar;size:255;"`
+	IsActive         bool      `json:"is_active"`
 	CreatedAt        time.Time `json:"created_at"`
 
-	SharedSocial []SharedSocial `gorm:"foreignKey:IdLink;references:IdInvitationLink;"`
-	GuestView    []GuestView    `gorm:"foreignKey:IdLink;references:IdInvitationLink;"`
+	SharedSocial []SharedSocial `gorm:"foreignKey:IdInvitationLink;references:IdInvitationLink;"`
+	GuestView    []GuestView    `gorm:"foreignKey:IdInvitationLink;references:IdInvitationLink;"`
 }
 
 func (InvitationLink) TableName() string {

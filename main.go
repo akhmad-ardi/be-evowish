@@ -19,6 +19,8 @@ func main() {
 
 	app := fiber.New()
 
+	app.Static("/uploads", "./uploads")
+
 	// Main route
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{
@@ -27,6 +29,7 @@ func main() {
 	})
 
 	routes.AuthRoutes(app)
+	routes.InvitationRoutes(app)
 
 	log.Fatal(app.Listen(":3001"))
 }

@@ -1,4 +1,4 @@
-package lib
+package requests
 
 type RegisterRequest struct {
 	Name            string `json:"name" validate:"required,min=2"`

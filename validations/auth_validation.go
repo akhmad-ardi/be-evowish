@@ -1,9 +1,12 @@
 package validations
 
-import "be-undangan-digital/lib"
+import (
+	"be-undangan-digital/lib"
+	"be-undangan-digital/requests"
+)
 
 // --- Validasi Register ---
-func ValidateRegisterRequest(data lib.RegisterRequest) map[string]string {
+func ValidateRegisterRequest(data requests.RegisterRequest) map[string]string {
 	messages := map[string]map[string]string{
 		"Name": {
 			"required": "Nama wajib diisi",
@@ -27,7 +30,7 @@ func ValidateRegisterRequest(data lib.RegisterRequest) map[string]string {
 }
 
 // --- Validasi Login ---
-func ValidateLoginRequest(data lib.LoginRequest) map[string]string {
+func ValidateLoginRequest(data requests.LoginRequest) map[string]string {
 	messages := map[string]map[string]string{
 		"Email": {
 			"required": "Email wajib diisi",

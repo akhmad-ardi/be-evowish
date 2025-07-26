@@ -8,7 +8,6 @@ import (
 
 var Validate = validator.New()
 
-// Fungsi umum validasi dengan pesan kustom
 func ValidateWithCustomMessages(data interface{}, messages map[string]map[string]string) map[string]string {
 	err := Validate.Struct(data)
 	if err == nil {
