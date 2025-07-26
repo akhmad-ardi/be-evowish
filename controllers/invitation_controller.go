@@ -28,6 +28,7 @@ func CreateInvitation(c *fiber.Ctx) error {
 	req.IdTemplate = c.FormValue("id_template")
 	req.PrimaryColor = c.FormValue("primary_color")
 	req.SecondaryColor = c.FormValue("secondary_color")
+	req.BackgroundImage = c.FormValue("background_image")
 
 	if err := c.BodyParser(req); err != nil {
 		println(err.Error())
@@ -40,11 +41,8 @@ func CreateInvitation(c *fiber.Ctx) error {
 	}
 
 	file, err := c.FormFile("background_image")
-	if err != nil {
-		println("Tidak ada gambar")
-		req.BackgroundImage = "" // jika tidak ada file
-	} else {
-		filename, err := lib.UploadImageFile(file, "uploads")
+	if err == nil {
+		filename, err := lib.UploadImageFile(file, "public")
 		if err != nil {
 			return lib.RespondError(c, fiber.StatusInternalServerError, err.Error())
 		}

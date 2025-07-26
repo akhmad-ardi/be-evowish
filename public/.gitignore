@@ -1,0 +1,10 @@
+!.gitginore
+
+*.jpeg
+*.jpg
+*.png
+
+!wedding_*.jpg
+!meeting_*.jpg
+!religious_*.jpg
+!birthday_*.jpg
