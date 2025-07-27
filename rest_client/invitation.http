@@ -75,3 +75,15 @@ Authorization: {{token}}
 {
   "id_invitation": "ayvBfF0"
 }
+
+###
+
+# Share social media suuccess
+POST {{baseUrl}}/invitation/share_social_media
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "id_invitation": "ayvBVfF0",
+  "name_platform": "whatsapp"
+}

@@ -11,6 +11,16 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+func GenerateInvitationLink(invitationID string) (string, error) {
+	baseURL := os.Getenv("FRONT_END")
+	if baseURL == "" {
+		return "", fmt.Errorf("env FRONT_END belum diset")
+	}
+
+	link := fmt.Sprintf("%s/invitation/%s", baseURL, invitationID)
+	return link, nil
+}
+
 func GetUserIDFromContext(c *fiber.Ctx) (string, error) {
 	localsID := c.Locals("id_user")
 	idUser, ok := localsID.(string)

@@ -12,6 +12,7 @@ func InvitationRoutes(app *fiber.App) {
 
 	routes.Post("/create", middleware.JWTProtected(), controllers.CreateInvitation)
 	routes.Post("/generate_link", middleware.JWTProtected(), controllers.GenerateLink)
+	routes.Post("/share_social_media", middleware.JWTProtected(), controllers.ShareSocialMedia)
 
 	routes.Get("/", middleware.JWTProtected(), controllers.GetInvitations)
 }

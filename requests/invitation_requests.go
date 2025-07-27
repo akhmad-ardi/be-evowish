@@ -15,3 +15,8 @@ type CreateInvitationRequest struct {
 type GenerateLinkRequest struct {
 	IdInvitation string `json:"id_invitation" validate:"required"`
 }
+
+type ShareSocialMediaRequest struct {
+	IdInvitation string `json:"id_invitation" validate:"required"`
+	NamePlatform string `json:"name_platform" validate:"required"`
+}

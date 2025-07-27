@@ -28,7 +28,7 @@ func CreateInvitationService(IdUser string, data *requests.CreateInvitationReque
 		return nil, errors.New("parse date is error")
 	}
 
-	new_invitation := &models.Invitation{
+	new_invitation := models.Invitation{
 		IdInvitation:    id_invitation,
 		IdTemplate:      data.IdTemplate,
 		IdUser:          IdUser,
@@ -48,10 +48,10 @@ func CreateInvitationService(IdUser string, data *requests.CreateInvitationReque
 		return nil, err
 	}
 
-	return new_invitation, nil
+	return &new_invitation, nil
 }
 
-func GetInvitations(IdUser string) (*[]models.Invitation, error) {
+func GetInvitationsService(IdUser string) (*[]models.Invitation, error) {
 	var invitations []models.Invitation
 
 	err := config.DB.Where("id_user = ?", IdUser).Find(&invitations).Error
@@ -62,10 +62,9 @@ func GetInvitations(IdUser string) (*[]models.Invitation, error) {
 	return &invitations, nil
 }
 
-func GetInvitation(IdInvitation string) (*models.Invitation, error) {
+func GetInvitationService(IdInvitation string) (*models.Invitation, error) {
 	var invitation models.Invitation
 
-	println(IdInvitation)
 	err := config.DB.Where("id_invitation = ?", IdInvitation).First(&invitation).Error
 	if err != nil {
 		println(err.Error())

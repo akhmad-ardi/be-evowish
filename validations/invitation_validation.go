@@ -48,3 +48,16 @@ func ValidateGenerateLinkRequest(data requests.GenerateLinkRequest) map[string]s
 
 	return lib.ValidateWithCustomMessages(data, messages)
 }
+
+func ValidateShareSocialMediaRequest(data requests.ShareSocialMediaRequest) map[string]string {
+	messages := map[string]map[string]string{
+		"IdInvitation": {
+			"required": "Id invitation wajib diisi",
+		},
+		"NamePlatform": {
+			"required": "Nama platform wajib diisi",
+		},
+	}
+
+	return lib.ValidateWithCustomMessages(data, messages)
+}
