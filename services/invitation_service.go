@@ -65,7 +65,7 @@ func GetInvitationsService(IdUser string) (*[]models.Invitation, error) {
 func GetInvitationService(IdInvitation string) (*models.Invitation, error) {
 	var invitation models.Invitation
 
-	err := config.DB.Where("id_invitation = ?", IdInvitation).First(&invitation).Error
+	err := config.DB.Preload("InvitationLink").Where("id_invitation = ?", IdInvitation).First(&invitation).Error
 	if err != nil {
 		println(err.Error())
 		if errors.Is(err, gorm.ErrRecordNotFound) {

@@ -56,6 +56,12 @@ Authorization: {{token}}
 
 ###
 
+# Get Invitation
+GET {{baseUrl}}/invitation/ayvBVfF0
+Content-Type: application/json
+
+###
+
 # Generate Link Success
 POST {{baseUrl}}/invitation/generate_link
 Content-Type: application/json

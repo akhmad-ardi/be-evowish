@@ -71,6 +71,19 @@ func GetInvitations(c *fiber.Ctx) error {
 	})
 }
 
+func GetInvitation(c *fiber.Ctx) error {
+	id_invitation := c.Params("id_invitation")
+
+	invitation, err := services.GetInvitationService(id_invitation)
+	if err != nil {
+		return lib.RespondError(c, http.StatusNotFound, err.Error())
+	}
+
+	return c.Status(http.StatusOK).JSON(fiber.Map{
+		"invitation": invitation,
+	})
+}
+
 func GenerateLink(c *fiber.Ctx) error {
 	var req requests.GenerateLinkRequest
 
