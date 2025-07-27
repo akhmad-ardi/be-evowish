@@ -20,3 +20,9 @@ type ShareSocialMediaRequest struct {
 	IdInvitation string `json:"id_invitation" validate:"required"`
 	NamePlatform string `json:"name_platform" validate:"required"`
 }
+
+type GuestViewRequest struct {
+	IdInvitationLink string `json:"id_invitation_link" validate:"required"`
+	IpAddres         string `json:"ip_address" validate:"required"`
+	UserAgent        string `json:"user_agent" validate:"required"`
+}

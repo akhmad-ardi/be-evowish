@@ -147,3 +147,25 @@ func ShareSocialMedia(c *fiber.Ctx) error {
 		"link": invitationLink.Link,
 	})
 }
+
+func GuestView(c *fiber.Ctx) error {
+	var req requests.GuestViewRequest
+
+	if err := c.BodyParser(&req); err != nil {
+		return lib.RespondError(c, http.StatusBadRequest, "Permintaan tidak valid")
+	}
+
+	validation_errors := validations.ValidateGuestViewRequest(req)
+	if validation_errors != nil {
+		return lib.RespondValidationError(c, validation_errors)
+	}
+
+	_, err := services.CreateGuestViewService(req)
+	if err != nil {
+		return lib.RespondError(c, http.StatusInternalServerError, err.Error())
+	}
+
+	return c.Status(200).JSON(fiber.Map{
+		"message": req.UserAgent + " telah melihat undangan",
+	})
+}

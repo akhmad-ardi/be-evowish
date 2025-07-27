@@ -87,3 +87,16 @@ Authorization: {{token}}
   "id_invitation": "ayvBVfF0",
   "name_platform": "whatsapp"
 }
+
+###
+
+# Guest view suuccess
+POST {{baseUrl}}/invitation/guest_view
+Content-Type: application/json
+# Authorization: {{token}}
+
+{
+  "id_invitation_link": "cdmnn6Gq",
+  "ip_address": "127.0.0.1",
+  "user_agent": "Ardi"
+}

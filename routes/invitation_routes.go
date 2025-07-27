@@ -10,6 +10,8 @@ import (
 func InvitationRoutes(app *fiber.App) {
 	routes := app.Group("/api/invitation")
 
+	routes.Post("/guest_view", controllers.GuestView)
+
 	routes.Post("/create", middleware.JWTProtected(), controllers.CreateInvitation)
 	routes.Post("/generate_link", middleware.JWTProtected(), controllers.GenerateLink)
 	routes.Post("/share_social_media", middleware.JWTProtected(), controllers.ShareSocialMedia)

@@ -61,3 +61,19 @@ func ValidateShareSocialMediaRequest(data requests.ShareSocialMediaRequest) map[
 
 	return lib.ValidateWithCustomMessages(data, messages)
 }
+
+func ValidateGuestViewRequest(data requests.GuestViewRequest) map[string]string {
+	messages := map[string]map[string]string{
+		"IdInvitationLink": {
+			"required": "Id invitation link wajib diisi",
+		},
+		"IpAddress": {
+			"required": "Ip address wajib diisi",
+		},
+		"UserAgent": {
+			"required": "User agent wajib diisi",
+		},
+	}
+
+	return lib.ValidateWithCustomMessages(data, messages)
+}
