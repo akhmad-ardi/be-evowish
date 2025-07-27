@@ -1,4 +1,5 @@
 @baseUrl = http://localhost:3001/api
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTM4NTU1NjAsImlkX3VzZXIiOiJabWMtWGYtbiJ9.yKQm75sBj0k6nY2GJjORaOpmcRgzRYcWWK9uE0BzMDU
 
 # Register Success
 POST {{baseUrl}}/auth/register
@@ -82,3 +83,10 @@ Content-Type: application/json
   "email": "",
   "password": ""
 }
+
+###
+
+# Check Auth
+GET {{baseUrl}}/auth
+Content-Type: application/json
+Authorization: {{token}}

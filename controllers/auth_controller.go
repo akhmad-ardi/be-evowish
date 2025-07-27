@@ -61,3 +61,9 @@ func Login(c *fiber.Ctx) error {
 		"token":   token,
 	})
 }
+
+func CheckAuth(c *fiber.Ctx) error {
+	return c.Status(200).JSON(fiber.Map{
+		"is_auth": true,
+	})
+}

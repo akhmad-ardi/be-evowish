@@ -58,3 +58,27 @@
   }
 }
 ```
+
+## Check Auth
+
+### Request
+- Headers
+```json
+{
+  "Authorization": "token"
+}
+```
+
+### Response Success
+```json
+{
+  "is_auth": true
+}
+```
+
+### Response Fail
+```json
+{
+  "message_error": "Unauthorized"
+}
+```
