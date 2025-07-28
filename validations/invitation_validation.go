@@ -7,31 +7,31 @@ import (
 
 func ValidateCreateInvitationRequest(data requests.CreateInvitationRequest) map[string]string {
 	messages := map[string]map[string]string{
-		"IdTemplate": {
+		"id_template": {
 			"required": "Id template wajib diisi",
 		},
-		"IdUser": {
+		"id_user": {
 			"required": "Id user wajib diisi",
 		},
-		"Title": {
+		"title": {
 			"required": "Judul acara wajib diisi",
 		},
-		"Date": {
+		"date": {
 			"required": "Tanggal wajib diisi",
 		},
-		"Time": {
+		"time": {
 			"required": "Waktu wajib diisi",
 		},
-		"Location": {
+		"location": {
 			"required": "Lokasi wajib diisi",
 		},
-		"Description": {
+		"description": {
 			"required": "Deskripsi wajib diisi",
 		},
-		"PrimaryColor": {
+		"primary_color": {
 			"required": "Primary color wajib diisi",
 		},
-		"SecondaryColor": {
+		"secondary_color": {
 			"required": "Secondary color wajib diisi",
 		},
 	}
@@ -41,7 +41,7 @@ func ValidateCreateInvitationRequest(data requests.CreateInvitationRequest) map[
 
 func ValidateGenerateLinkRequest(data requests.GenerateLinkRequest) map[string]string {
 	messages := map[string]map[string]string{
-		"IdInvitation": {
+		"id_invitation": {
 			"required": "Id invitation wajib diisi",
 		},
 	}
@@ -51,10 +51,10 @@ func ValidateGenerateLinkRequest(data requests.GenerateLinkRequest) map[string]s
 
 func ValidateShareSocialMediaRequest(data requests.ShareSocialMediaRequest) map[string]string {
 	messages := map[string]map[string]string{
-		"IdInvitation": {
+		"id_invitation": {
 			"required": "Id invitation wajib diisi",
 		},
-		"NamePlatform": {
+		"name_platform": {
 			"required": "Nama platform wajib diisi",
 		},
 	}
@@ -64,13 +64,13 @@ func ValidateShareSocialMediaRequest(data requests.ShareSocialMediaRequest) map[
 
 func ValidateGuestViewRequest(data requests.GuestViewRequest) map[string]string {
 	messages := map[string]map[string]string{
-		"IdInvitationLink": {
+		"id_invitation_link": {
 			"required": "Id invitation link wajib diisi",
 		},
-		"IpAddress": {
+		"ip_address": {
 			"required": "Ip address wajib diisi",
 		},
-		"UserAgent": {
+		"user_agent": {
 			"required": "User agent wajib diisi",
 		},
 	}

@@ -8,19 +8,19 @@ import (
 // --- Validasi Register ---
 func ValidateRegisterRequest(data requests.RegisterRequest) map[string]string {
 	messages := map[string]map[string]string{
-		"Name": {
+		"name": {
 			"required": "Nama wajib diisi",
 			"min":      "Nama minimal 2 karakter",
 		},
-		"Email": {
+		"email": {
 			"required": "Email wajib diisi",
 			"email":    "Format email tidak valid",
 		},
-		"Password": {
+		"password": {
 			"required": "Password wajib diisi",
 			"min":      "Password minimal 6 karakter",
 		},
-		"ConfirmPassword": {
+		"confirm_password": {
 			"required": "Konfirmasi password wajib diisi",
 			"eqfield":  "Konfirmasi password harus sama dengan password",
 		},
@@ -32,11 +32,11 @@ func ValidateRegisterRequest(data requests.RegisterRequest) map[string]string {
 // --- Validasi Login ---
 func ValidateLoginRequest(data requests.LoginRequest) map[string]string {
 	messages := map[string]map[string]string{
-		"Email": {
+		"email": {
 			"required": "Email wajib diisi",
 			"email":    "Format email tidak valid",
 		},
-		"Password": {
+		"password": {
 			"required": "Password wajib diisi",
 			"min":      "Password minimal 6 karakter",
 		},
