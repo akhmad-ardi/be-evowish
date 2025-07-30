@@ -86,6 +86,29 @@ func GetInvitation(c *fiber.Ctx) error {
 	})
 }
 
+func DeleteInvitation(c *fiber.Ctx) error {
+	id_invitation := c.Params("id_invitation")
+
+	invitation, err := services.GetInvitationService(id_invitation)
+	if err != nil {
+		return lib.RespondError(c, http.StatusNotFound, err.Error())
+	}
+
+	err = lib.DeleteImageFile(invitation.BackgroundImage, "public")
+	if err != nil {
+		return lib.RespondError(c, http.StatusInternalServerError, err.Error())
+	}
+
+	_, err = services.DeleteInvitationService(invitation.IdInvitation)
+	if err != nil {
+		return lib.RespondError(c, http.StatusInternalServerError, err.Error())
+	}
+
+	return c.Status(200).JSON(fiber.Map{
+		"message": "Undangan berhasil dihapus",
+	})
+}
+
 func GenerateLink(c *fiber.Ctx) error {
 	var req requests.GenerateLinkRequest
 

@@ -11,8 +11,8 @@ type InvitationLink struct {
 	IsActive         bool      `json:"is_active"`
 	CreatedAt        time.Time `json:"created_at"`
 
-	SharedSocial []SharedSocial `gorm:"foreignKey:IdInvitationLink;references:IdInvitationLink;"`
-	GuestView    []GuestView    `gorm:"foreignKey:IdInvitationLink;references:IdInvitationLink;"`
+	SharedSocial []SharedSocial `gorm:"foreignKey:IdInvitationLink;references:IdInvitationLink;constraint:OnDelete:CASCADE"`
+	GuestView    []GuestView    `gorm:"foreignKey:IdInvitationLink;references:IdInvitationLink;constraint:OnDelete:CASCADE"`
 }
 
 func (InvitationLink) TableName() string {

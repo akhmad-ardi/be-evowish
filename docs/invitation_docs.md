@@ -60,6 +60,31 @@
 }
 ```
 
+## Create
+  - **POST** `/api/invitation/delete/:id_invitation`
+
+### Request
+- Headers
+```json
+{
+  "Authorization": "Bearer token"
+}
+```
+
+### Response Success
+```json
+{
+  "message": "Undangan berhasil dihapus",
+}
+```
+
+### Response Validation Fail
+```json
+{
+  "message_error": ""
+}
+```
+
 ## Guest View
   - **GET** `/api/invitation/guest_view`
 

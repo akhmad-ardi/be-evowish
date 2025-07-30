@@ -14,6 +14,8 @@ func InvitationRoutes(app *fiber.App) {
 	routes.Get("/:id_invitation", controllers.GetInvitation)
 
 	routes.Post("/create", middleware.JWTProtected(), controllers.CreateInvitation)
+	routes.Delete("/delete/:id_invitation", middleware.JWTProtected(), controllers.DeleteInvitation)
+
 	routes.Post("/generate_link", middleware.JWTProtected(), controllers.GenerateLink)
 	routes.Post("/share_social_media", middleware.JWTProtected(), controllers.ShareSocialMedia)
 

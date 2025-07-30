@@ -21,7 +21,7 @@ type Invitation struct {
 
 	// User           User           `gorm:"foreignKey:IdUser;references:IdUser"`
 	// Template       Template       `gorm:"foreignKey:IdTemplate;references:IdTemplate"`
-	InvitationLink InvitationLink `gorm:"foreignKey:IdInvitation;references:IdInvitation"`
+	InvitationLink InvitationLink `gorm:"foreignKey:IdInvitation;references:IdInvitation;constraint:OnDelete:CASCADE"`
 }
 
 func (Invitation) TableName() string {

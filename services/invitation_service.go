@@ -76,3 +76,14 @@ func GetInvitationService(IdInvitation string) (*models.Invitation, error) {
 
 	return &invitation, nil
 }
+
+func DeleteInvitationService(IdInvitation string) (*models.Invitation, error) {
+	var invitation models.Invitation
+
+	err := config.DB.Delete(&invitation, "id_invitation = ?", IdInvitation).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return &invitation, nil
+}

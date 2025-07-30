@@ -12,7 +12,7 @@ type User struct {
 	CreatedAt time.Time `json:"created_at" gorm:"autoCreateTime:false"`
 	UpdatedAt time.Time `json:"updated_at" gorm:"autoCreateTime:false"`
 
-	Invitations []Invitation `gorm:"foreignKey:IdUser;references:IdUser;"`
+	Invitations []Invitation `gorm:"foreignKey:IdUser;references:IdUser;constraint:OnDelete:CASCADE"`
 }
 
 func (User) TableName() string {

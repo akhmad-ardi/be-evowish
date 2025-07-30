@@ -1,6 +1,7 @@
 package lib
 
 import (
+	"errors"
 	"fmt"
 	"mime/multipart"
 	"os"
@@ -83,6 +84,53 @@ func UploadImageFile(file *multipart.FileHeader, folderName string) (string, err
 	fmt.Println("Filename:", filename)
 
 	return filename, nil
+}
+
+func DeleteImageFile(filename string, folderName string) error {
+	// Daftar file yang tidak boleh dihapus
+	protectedFiles := map[string]bool{
+		"wedding_1.jpg":   true,
+		"wedding_2.jpg":   true,
+		"meeting_1.jpg":   true,
+		"meeting_2.jpg":   true,
+		"birthday_1.jpg":  true,
+		"birthday_2.jpg":  true,
+		"religious_1.jpg": true,
+		"religious_2.jpg": true,
+	}
+
+	// Cek nama file valid
+	if strings.Contains(filename, "/") || strings.Contains(filename, "\\") {
+		return errors.New("nama file tidak valid")
+	}
+
+	// Lewati file yang dilindungi tanpa error
+	if protectedFiles[filename] {
+		fmt.Printf("Lewati file default: %s\n", filename)
+		return nil
+	}
+
+	// Ambil direktori kerja
+	baseDir, err := os.Getwd()
+	if err != nil {
+		return fmt.Errorf("gagal mendapatkan direktori kerja: %v", err)
+	}
+
+	// Path file lengkap
+	filePath := filepath.Join(baseDir, folderName, filename)
+
+	// Cek apakah file ada
+	if _, err := os.Stat(filePath); os.IsNotExist(err) {
+		return fmt.Errorf("file tidak ditemukan: %s", filename)
+	}
+
+	// Hapus file
+	if err := os.Remove(filePath); err != nil {
+		return fmt.Errorf("gagal menghapus file: %v", err)
+	}
+
+	fmt.Println("File berhasil dihapus:", filePath)
+	return nil
 }
 
 // Helper: simpan file multipart
