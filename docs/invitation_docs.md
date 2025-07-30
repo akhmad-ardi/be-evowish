@@ -60,6 +60,26 @@
 }
 ```
 
+## Guest View
+  - **GET** `/api/invitation`
+
+### Request
+- Body
+```json
+{
+  "id_invitation_link": "string",
+  "ip_address": "sttring",
+  "user_agent": "string"
+}
+```
+
+### Response Success
+```json
+{
+  "invitations": [],
+}
+```
+
 ## Generate Link Invitation
   - **POST** `/api/invitation/generate_link`
 

@@ -25,7 +25,7 @@ func main() {
 		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
 	}))
 
-	app.Static("/uploads", "./uploads")
+	app.Static("/public", "./public")
 
 	// Main route
 	app.Get("/", func(c *fiber.Ctx) error {

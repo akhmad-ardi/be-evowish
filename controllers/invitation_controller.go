@@ -46,12 +46,14 @@ func CreateInvitation(c *fiber.Ctx) error {
 		req.BackgroundImage = filename
 	}
 
-	if _, err := services.CreateInvitationService(IdUser, req); err != nil {
+	invitation, err := services.CreateInvitationService(IdUser, req)
+	if err != nil {
 		return lib.RespondError(c, http.StatusBadRequest, err.Error())
 	}
 
 	return c.Status(http.StatusCreated).JSON(fiber.Map{
-		"message": "Undangan berhasil dibuat",
+		"message":       "Undangan berhasil dibuat",
+		"id_invitation": invitation.IdInvitation,
 	})
 }
 

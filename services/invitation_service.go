@@ -25,7 +25,7 @@ func CreateInvitationService(IdUser string, data *requests.CreateInvitationReque
 
 	parseTime, err := time.Parse("15:04:05", data.Time)
 	if err != nil {
-		return nil, errors.New("parse date is error")
+		return nil, errors.New("parse time is error")
 	}
 
 	new_invitation := models.Invitation{
@@ -54,7 +54,7 @@ func CreateInvitationService(IdUser string, data *requests.CreateInvitationReque
 func GetInvitationsService(IdUser string) (*[]models.Invitation, error) {
 	var invitations []models.Invitation
 
-	err := config.DB.Where("id_user = ?", IdUser).Find(&invitations).Error
+	err := config.DB.Preload("InvitationLink").Where("id_user = ?", IdUser).Find(&invitations).Error
 	if err != nil {
 		return nil, err
 	}
