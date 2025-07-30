@@ -61,7 +61,7 @@
 ```
 
 ## Guest View
-  - **GET** `/api/invitation`
+  - **GET** `/api/invitation/guest_view`
 
 ### Request
 - Body
