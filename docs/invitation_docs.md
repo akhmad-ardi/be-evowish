@@ -68,7 +68,7 @@
 ```json
 {
   "id_invitation_link": "string",
-  "ip_address": "sttring",
+  "ip_address": "string",
   "user_agent": "string"
 }
 ```
@@ -76,7 +76,7 @@
 ### Response Success
 ```json
 {
-  "invitations": [],
+  "message": "string",
 }
 ```
 
