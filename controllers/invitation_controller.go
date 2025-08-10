@@ -12,6 +12,22 @@ import (
 	"gorm.io/datatypes"
 )
 
+func GetTemplates(c *fiber.Ctx) error {
+	_, errGetUserID := lib.GetUserIDFromContext(c)
+	if errGetUserID != nil {
+		return lib.RespondError(c, http.StatusUnauthorized, errGetUserID.Error())
+	}
+
+	templates, errGetTemplates := services.GetTemplatesService()
+	if errGetTemplates != nil {
+		return lib.RespondError(c, http.StatusInternalServerError, errGetTemplates.Error())
+	}
+
+	return c.Status(http.StatusOK).JSON(fiber.Map{
+		"templates": templates,
+	})
+}
+
 func CreateInvitation(c *fiber.Ctx) error {
 	IdUser, errGetUserID := lib.GetUserIDFromContext(c)
 	if errGetUserID != nil {
