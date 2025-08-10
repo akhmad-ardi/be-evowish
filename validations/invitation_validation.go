@@ -10,29 +10,29 @@ func ValidateCreateInvitationRequest(data requests.CreateInvitationRequest) map[
 		"id_template": {
 			"required": "Id template wajib diisi",
 		},
-		"id_user": {
-			"required": "Id user wajib diisi",
+		"name": {
+			"required": "Nama acara wajib diisi",
 		},
-		"title": {
-			"required": "Judul acara wajib diisi",
+	}
+
+	return lib.ValidateWithCustomMessages(data, messages)
+}
+
+func ValidateAddDataInvitation(data requests.AddDataInvitation) map[string]string {
+	messages := map[string]map[string]string{
+		"data_invitation": {
+			"required": "Silahkan isi data invitation",
 		},
-		"date": {
-			"required": "Tanggal wajib diisi",
-		},
-		"time": {
-			"required": "Waktu wajib diisi",
-		},
-		"location": {
-			"required": "Lokasi wajib diisi",
-		},
-		"description": {
-			"required": "Deskripsi wajib diisi",
-		},
-		"primary_color": {
-			"required": "Primary color wajib diisi",
-		},
-		"secondary_color": {
-			"required": "Secondary color wajib diisi",
+	}
+
+	return lib.ValidateWithCustomMessages(data, messages)
+}
+
+func ValidateAddBackgroundImageRequest(data requests.AddBackgroundImageRequest) map[string]string {
+	messages := map[string]map[string]string{
+		"file": {
+			"required": "File gambar wajib diunggah",
+			"image":    "File harus berupa gambar (jpg, jpeg, png, gif)",
 		},
 	}
 

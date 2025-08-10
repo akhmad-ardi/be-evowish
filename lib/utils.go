@@ -26,7 +26,7 @@ func GetUserIDFromContext(c *fiber.Ctx) (string, error) {
 	localsID := c.Locals("id_user")
 	idUser, ok := localsID.(string)
 	if !ok || idUser == "" {
-		return "", fiber.NewError(fiber.StatusUnauthorized, "Unauthorized: ID user tidak valid")
+		return "", errors.New("unauthorized: id user tidak valid")
 	}
 	return idUser, nil
 }
@@ -149,4 +149,25 @@ func saveMultipartFile(file *multipart.FileHeader, path string) error {
 
 	_, err = dst.ReadFrom(src)
 	return err
+}
+
+// ParseMapTimeAndReplace mem-parse string pada map[key] menjadi time.Time
+// lalu langsung mengganti nilainya di map tersebut.
+func ParseMapTimeAndReplace(m map[string]interface{}, key string, layouts []string) (time.Time, error) {
+	str, ok := m[key].(string)
+	if !ok {
+		return time.Time{}, errors.New("key '" + key + "' tidak ditemukan atau bukan string")
+	}
+
+	var parsed time.Time
+	var err error
+	for _, layout := range layouts {
+		parsed, err = time.Parse(layout, str)
+		if err == nil {
+			m[key] = parsed // langsung ganti nilainya di map
+			return parsed, nil
+		}
+	}
+
+	return time.Time{}, errors.New("gagal parse '" + key + "' dengan format yang tersedia")
 }

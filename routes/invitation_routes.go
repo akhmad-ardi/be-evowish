@@ -13,8 +13,10 @@ func InvitationRoutes(app *fiber.App) {
 	routes.Post("/guest_view", controllers.GuestView)
 	routes.Get("/:id_invitation", controllers.GetInvitation)
 
-	routes.Post("/create", middleware.JWTProtected(), controllers.CreateInvitation)
-	routes.Delete("/delete/:id_invitation", middleware.JWTProtected(), controllers.DeleteInvitation)
+	routes.Post("/create_invitation", middleware.JWTProtected(), controllers.CreateInvitation)
+	routes.Post("/add_data_invitation/:id_invitation", middleware.JWTProtected(), controllers.AddDataInvitation)
+	routes.Post("/add_background_image/:id_invitation", middleware.JWTProtected(), controllers.AddBackgroundImage)
+	routes.Delete("/delete_invitation/:id_invitation", middleware.JWTProtected(), controllers.DeleteInvitation)
 
 	routes.Post("/generate_link", middleware.JWTProtected(), controllers.GenerateLink)
 	routes.Post("/share_social_media", middleware.JWTProtected(), controllers.ShareSocialMedia)

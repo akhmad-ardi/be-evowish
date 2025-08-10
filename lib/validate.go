@@ -2,6 +2,9 @@ package lib
 
 import (
 	"fmt"
+	"mime"
+	"mime/multipart"
+	"path/filepath"
 	"reflect"
 	"strings"
 
@@ -9,6 +12,25 @@ import (
 )
 
 var Validate = validator.New()
+
+func init() {
+	_ = Validate.RegisterValidation("image", func(fl validator.FieldLevel) bool {
+		file, ok := fl.Field().Interface().(*multipart.FileHeader)
+		if !ok || file == nil {
+			return false
+		}
+
+		// Cek ekstensi
+		ext := strings.ToLower(filepath.Ext(file.Filename))
+		if ext != ".jpg" && ext != ".jpeg" && ext != ".png" && ext != ".gif" {
+			return false
+		}
+
+		// Cek MIME type
+		mimeType := mime.TypeByExtension(ext)
+		return strings.HasPrefix(mimeType, "image/")
+	})
+}
 
 func getJSONFieldName(data interface{}, field string) string {
 	val := reflect.ValueOf(data)

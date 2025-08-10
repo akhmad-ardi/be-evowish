@@ -1,15 +1,18 @@
 package requests
 
+import "mime/multipart"
+
 type CreateInvitationRequest struct {
-	IdTemplate      string `json:"id_template" validate:"required"`
-	Title           string `json:"title" validate:"required"`
-	Date            string `json:"date" validate:"required"`
-	Time            string `json:"time" validate:"required"`
-	Location        string `json:"location" validate:"required"`
-	Description     string `json:"description" validate:"required"`
-	PrimaryColor    string `json:"primary_color" validate:"required"`
-	SecondaryColor  string `json:"secondary_color" validate:"required"`
-	BackgroundImage string `json:"background_image"`
+	IdTemplate string `json:"id_template" validate:"required"`
+	Name       string `json:"name" validate:"required"`
+}
+
+type AddBackgroundImageRequest struct {
+	File *multipart.FileHeader `form:"file"`
+}
+
+type AddDataInvitation struct {
+	DataInvitation map[string]interface{} `json:"data_invitation" validate:"required"`
 }
 
 type GenerateLinkRequest struct {

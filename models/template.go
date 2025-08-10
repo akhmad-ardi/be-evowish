@@ -2,13 +2,16 @@ package models
 
 import (
 	"time"
+
+	"gorm.io/datatypes"
 )
 
 type Template struct {
-	IdTemplate string    `json:"id_template" gorm:"primaryKey;type:char(8)"`
-	Name       string    `json:"name" gorm:"type:varchar(50)"`
-	PreviewURL string    `json:"preview_url" gorm:"type:varchar(255)"`
-	CreatedAt  time.Time `json:"created_at" gorm:"autoCreateTime:false"`
+	IdTemplate   string         `json:"id_template" gorm:"primaryKey;type:char(8)"`
+	Name         string         `json:"name" gorm:"type:varchar(50)"`
+	DataTemplate datatypes.JSON `json:"data_template" gorm:"type:jsonb"`
+	CreatedAt    time.Time      `json:"created_at" gorm:"autoCreateTime:false"`
+	UpdatedAt    time.Time      `json:"updated_at" gorm:"autoCreateTime:false"`
 
 	Invitations []Invitation `gorm:"foreignKey:IdTemplate;references:IdTemplate;"`
 }

@@ -1,7 +1,7 @@
 # Invitation
 
-## Create
-  - **POST** `/api/invitation/create`
+## Create Invitation
+  - **POST** `/api/invitation/create_invitation`
 
 ### Request
 - Headers
@@ -15,13 +15,7 @@
 ```json
 {
   "id_template": "string",
-  "title": "string",
-  "date": "2006-01-02",
-  "time": "15:04:05",
-  "location": "string",
-  "description": "string",
-  "primary_color": "",
-  "secondary_color": ""
+  "name": "string"
 }
 ```
 
@@ -39,6 +33,69 @@
     "title": "Judul acara wajib diisi",
     "date": "Tanggal wajib diisi",
   }
+}
+```
+
+## Add Data Invitation
+  - **POST** `/api/invitation/add_data_invitation/:id_invitation`
+
+### Request
+- Headers
+```json
+{
+  "Authorization": "Bearer token"
+}
+```
+
+- Body
+```json
+{
+  "data_invitation": {}
+}
+```
+
+### Response Success
+```json
+{
+  "message": "Undangan siap dibagikan"
+}
+```
+
+### Response Validation Fail
+```json
+{
+  "validation_errors": {}
+}
+```
+
+## Add Background Image
+  - **POST** `/api/invitation/add_background_image/:id_invitation`
+
+### Request
+- Headers
+```json
+{
+  "Authorization": "Bearer token"
+}
+```
+
+- Body
+Berupa form-data
+```
+bg_image: file
+```
+
+### Response Success
+```json
+{
+  "message": "Latar belakang berhasil ditambahkan"
+}
+```
+
+### Response Validation Fail
+```json
+{
+  "validation_errors": {}
 }
 ```
 
@@ -60,7 +117,7 @@
 }
 ```
 
-## Create
+## Delete Invitation
   - **POST** `/api/invitation/delete/:id_invitation`
 
 ### Request

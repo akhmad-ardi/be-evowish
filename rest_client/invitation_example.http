@@ -1,0 +1,115 @@
+@baseUrl = http://localhost:3001/api
+@token = 
+
+# Login success
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "ardi@example.com",
+  "password": "password123"
+}
+
+###
+
+# Invitation Success
+POST {{baseUrl}}/invitation/create
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "id_template": "UNDANGN1",
+  "title": "Test",
+  "date": "2025-08-01",
+  "time": "15:10:00",
+  "location": "Test",
+  "description": "Test",
+  "primary_color": "Test",
+  "secondary_color": "Test",
+  "background_image": "wedding_1.jpg"
+}
+
+###
+
+# Invitation Fail [Input Required]
+POST {{baseUrl}}/invitation/create
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "id_template": "",
+  "title": "",
+  "date": "",
+  "time": "",
+  "location": "",
+  "description": "",
+  "primary_color": "",
+  "secondary_color": ""
+}
+
+###
+
+# Get Invitations
+GET {{baseUrl}}/invitation
+Content-Type: application/json
+Authorization: {{token}}
+
+###
+
+# Delete Invitations
+DELETE {{baseUrl}}/invitation/delete/YEwxdfrr
+Content-Type: application/json
+Authorization: {{token}}
+
+###
+
+# Get Invitation
+GET {{baseUrl}}/invitation/YEwxdfrr
+Content-Type: application/json
+
+###
+
+# Generate Link Success
+POST {{baseUrl}}/invitation/generate_link
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "id_invitation": "AwAsyQJT"
+}
+
+###
+
+# Generate Link Fail
+POST {{baseUrl}}/invitation/generate_link
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "id_invitation": "ayvBfF0"
+}
+
+###
+
+# Share social media suuccess
+POST {{baseUrl}}/invitation/share_social_media
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "id_invitation": "AwAsyQJT",
+  "name_platform": "whatsapp"
+}
+
+###
+
+# Guest view suuccess
+POST {{baseUrl}}/invitation/guest_view
+Content-Type: application/json
+# Authorization: {{token}}
+
+{
+  "id_invitation_link": "2RQ4s7jF",
+  "ip_address": "127.0.0.1",
+  "user_agent": "Ardi"
+}

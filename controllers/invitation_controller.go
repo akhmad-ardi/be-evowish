@@ -5,50 +5,33 @@ import (
 	"be-undangan-digital/requests"
 	"be-undangan-digital/services"
 	"be-undangan-digital/validations"
+	"encoding/json"
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/datatypes"
 )
 
 func CreateInvitation(c *fiber.Ctx) error {
-	IdUser, err := lib.GetUserIDFromContext(c)
-	if err != nil {
-		return err
+	IdUser, errGetUserID := lib.GetUserIDFromContext(c)
+	if errGetUserID != nil {
+		return lib.RespondError(c, http.StatusUnauthorized, errGetUserID.Error())
 	}
 
-	req := new(requests.CreateInvitationRequest)
-	req.Title = c.FormValue("title")
-	req.Date = c.FormValue("date")
-	req.Time = c.FormValue("time")
-	req.Location = c.FormValue("location")
-	req.Description = c.FormValue("description")
-	req.IdTemplate = c.FormValue("id_template")
-	req.PrimaryColor = c.FormValue("primary_color")
-	req.SecondaryColor = c.FormValue("secondary_color")
-	req.BackgroundImage = c.FormValue("background_image")
+	var req requests.CreateInvitationRequest
 
-	if err := c.BodyParser(req); err != nil {
-		println(err.Error())
+	if err := c.BodyParser(&req); err != nil {
 		return lib.RespondError(c, http.StatusBadRequest, "Permintaan tidak valid")
 	}
 
-	validation_errors := validations.ValidateCreateInvitationRequest(*req)
+	validation_errors := validations.ValidateCreateInvitationRequest(req)
 	if validation_errors != nil {
 		return lib.RespondValidationError(c, validation_errors)
 	}
 
-	file, err := c.FormFile("background_image")
-	if err == nil {
-		filename, err := lib.UploadImageFile(file, "public")
-		if err != nil {
-			return lib.RespondError(c, fiber.StatusInternalServerError, err.Error())
-		}
-		req.BackgroundImage = filename
-	}
-
-	invitation, err := services.CreateInvitationService(IdUser, req)
-	if err != nil {
-		return lib.RespondError(c, http.StatusBadRequest, err.Error())
+	invitation, errCreateInvitation := services.CreateInvitationService(IdUser, &req)
+	if errCreateInvitation != nil {
+		return lib.RespondError(c, http.StatusBadRequest, errCreateInvitation.Error())
 	}
 
 	return c.Status(http.StatusCreated).JSON(fiber.Map{
@@ -57,15 +40,90 @@ func CreateInvitation(c *fiber.Ctx) error {
 	})
 }
 
+func AddDataInvitation(c *fiber.Ctx) error {
+	_, errGetUserID := lib.GetUserIDFromContext(c)
+	if errGetUserID != nil {
+		return lib.RespondError(c, http.StatusUnauthorized, errGetUserID.Error())
+	}
+
+	var req requests.AddDataInvitation
+
+	if err := c.BodyParser(&req); err != nil {
+		return lib.RespondError(c, http.StatusBadRequest, "Permintaan tidak valid")
+	}
+
+	validation_errors := validations.ValidateAddDataInvitation(req)
+	if validation_errors != nil {
+		return lib.RespondValidationError(c, validation_errors)
+	}
+
+	jsonData, _ := json.Marshal(req.DataInvitation)
+	updates := map[string]interface{}{
+		"data_invitation": datatypes.JSON(jsonData),
+	}
+
+	_, errUpdateInvitation := services.UpdateInvitationService(c.Params("id_invitation"), updates)
+	if errUpdateInvitation != nil {
+		return lib.RespondError(c, http.StatusInternalServerError, errUpdateInvitation.Error())
+	}
+
+	return c.Status(http.StatusOK).JSON(fiber.Map{
+		"message": "Undangan siap dibagikan",
+	})
+}
+
+func AddBackgroundImage(c *fiber.Ctx) error {
+	_, errGetUserID := lib.GetUserIDFromContext(c)
+	if errGetUserID != nil {
+		return lib.RespondError(c, http.StatusUnauthorized, errGetUserID.Error())
+	}
+
+	file, errFormFile := c.FormFile("bg_image")
+	if errFormFile != nil {
+		return lib.RespondError(c, http.StatusBadRequest, "Gagal membaca file")
+	}
+
+	req := requests.AddBackgroundImageRequest{
+		File: file,
+	}
+
+	validation_errors := validations.ValidateAddBackgroundImageRequest(req)
+	if validation_errors != nil {
+		return lib.RespondValidationError(c, validation_errors)
+	}
+
+	filename, errUploadImageFile := lib.UploadImageFile(req.File, "public")
+	if errUploadImageFile != nil {
+		return lib.RespondError(c, http.StatusInternalServerError, errUploadImageFile.Error())
+	}
+
+	jsonData, _ := json.Marshal(map[string]interface{}{
+		"background_image": filename,
+	})
+
+	updates := map[string]interface{}{
+		"data_invitation": datatypes.JSON(jsonData),
+	}
+
+	_, errUpdate := services.UpdateInvitationService(c.Params("id_invitation"), updates)
+	if errUpdate != nil {
+		return lib.RespondError(c, http.StatusInternalServerError, errUpdate.Error())
+	}
+
+	return c.Status(http.StatusCreated).JSON(fiber.Map{
+		"message": "Latar belakang berhasil ditambahkan",
+	})
+}
+
 func GetInvitations(c *fiber.Ctx) error {
 	IdUser, err := lib.GetUserIDFromContext(c)
 	if err != nil {
-		return err
+		return lib.RespondError(c, http.StatusUnauthorized, err.Error())
 	}
 
 	invitations, err := services.GetInvitationsService(IdUser)
 	if err != nil {
-		return lib.RespondError(c, http.StatusInternalServerError, "Query error")
+		return lib.RespondError(c, http.StatusInternalServerError, err.Error())
 	}
 
 	return c.Status(http.StatusOK).JSON(fiber.Map{
@@ -92,11 +150,6 @@ func DeleteInvitation(c *fiber.Ctx) error {
 	invitation, err := services.GetInvitationService(id_invitation)
 	if err != nil {
 		return lib.RespondError(c, http.StatusNotFound, err.Error())
-	}
-
-	err = lib.DeleteImageFile(invitation.BackgroundImage, "public")
-	if err != nil {
-		return lib.RespondError(c, http.StatusInternalServerError, err.Error())
 	}
 
 	_, err = services.DeleteInvitationService(invitation.IdInvitation)
