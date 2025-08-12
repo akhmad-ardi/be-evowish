@@ -159,14 +159,19 @@ func GetInvitation(c *fiber.Ctx) error {
 func DeleteInvitation(c *fiber.Ctx) error {
 	id_invitation := c.Params("id_invitation")
 
-	invitation, err := services.GetInvitationService(id_invitation)
-	if err != nil {
-		return lib.RespondError(c, http.StatusNotFound, err.Error())
+	invitation, errGetInvitation := services.GetInvitationService(id_invitation)
+	if errGetInvitation != nil {
+		return lib.RespondError(c, http.StatusNotFound, errGetInvitation.Error())
 	}
 
-	_, err = services.DeleteInvitationService(invitation.IdInvitation)
-	if err != nil {
-		return lib.RespondError(c, http.StatusInternalServerError, err.Error())
+	errDeleteImage := lib.DeleteImageFile(invitation.BackgroundImage, "public")
+	if errDeleteImage != nil {
+		return lib.RespondError(c, http.StatusInternalServerError, errDeleteImage.Error())
+	}
+
+	_, errDeleteInvitation := services.DeleteInvitationService(invitation.IdInvitation)
+	if errDeleteInvitation != nil {
+		return lib.RespondError(c, http.StatusInternalServerError, errDeleteInvitation.Error())
 	}
 
 	return c.Status(200).JSON(fiber.Map{

@@ -63,6 +63,16 @@ func Login(c *fiber.Ctx) error {
 }
 
 func CheckAuth(c *fiber.Ctx) error {
+	IdUser, errGetUserID := lib.GetUserIDFromContext(c)
+	if errGetUserID != nil {
+		return lib.RespondError(c, http.StatusUnauthorized, errGetUserID.Error())
+	}
+
+	_, errGetUser := services.GetUserByField("id_user", IdUser)
+	if errGetUser != nil {
+		return lib.RespondError(c, http.StatusUnauthorized, errGetUser.Error())
+	}
+
 	return c.Status(200).JSON(fiber.Map{
 		"is_auth": true,
 	})

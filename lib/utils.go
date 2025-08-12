@@ -113,7 +113,7 @@ func DeleteImageFile(filename string, folderName string) error {
 	// Ambil direktori kerja
 	baseDir, err := os.Getwd()
 	if err != nil {
-		return fmt.Errorf("gagal mendapatkan direktori kerja: %v", err)
+		return errors.New("gagal mendapatkan direktori kerja: " + err.Error())
 	}
 
 	// Path file lengkap
@@ -121,15 +121,14 @@ func DeleteImageFile(filename string, folderName string) error {
 
 	// Cek apakah file ada
 	if _, err := os.Stat(filePath); os.IsNotExist(err) {
-		return fmt.Errorf("file tidak ditemukan: %s", filename)
+		return errors.New("file tidak ditemukan: " + filename)
 	}
 
 	// Hapus file
 	if err := os.Remove(filePath); err != nil {
-		return fmt.Errorf("gagal menghapus file: %v", err)
+		return errors.New("gagal menghapus file: " + err.Error())
 	}
 
-	fmt.Println("File berhasil dihapus:", filePath)
 	return nil
 }
 
