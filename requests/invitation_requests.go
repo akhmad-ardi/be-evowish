@@ -3,8 +3,10 @@ package requests
 import "mime/multipart"
 
 type CreateInvitationRequest struct {
-	IdTemplate string `json:"id_template" validate:"required"`
-	Name       string `json:"name" validate:"required"`
+	IdTemplate      string                 `json:"id_template" validate:"required"`
+	Name            string                 `json:"name" validate:"required"`
+	DataInvitation  map[string]interface{} `json:"data_invitation" validate:"required"`
+	BackgroundImage string                 `json:"background_image" validate:"required"`
 }
 
 type AddBackgroundImageRequest struct {

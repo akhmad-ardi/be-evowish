@@ -113,12 +113,8 @@ func AddBackgroundImage(c *fiber.Ctx) error {
 		return lib.RespondError(c, http.StatusInternalServerError, errUploadImageFile.Error())
 	}
 
-	jsonData, _ := json.Marshal(map[string]interface{}{
-		"background_image": filename,
-	})
-
 	updates := map[string]interface{}{
-		"data_invitation": datatypes.JSON(jsonData),
+		"background_image": filename,
 	}
 
 	_, errUpdate := services.UpdateInvitationService(c.Params("id_invitation"), updates)
@@ -206,7 +202,8 @@ func GenerateLink(c *fiber.Ctx) error {
 	}
 
 	return c.Status(http.StatusOK).JSON(fiber.Map{
-		"link": invitation_link.Link,
+		"message": "Undangan link berhasil dibuat",
+		"link":    invitation_link.Link,
 	})
 }
 

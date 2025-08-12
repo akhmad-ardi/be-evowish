@@ -2,14 +2,17 @@ package services
 
 import (
 	"be-undangan-digital/config"
+	"be-undangan-digital/lib"
 	"be-undangan-digital/models"
 	"be-undangan-digital/requests"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"reflect"
 	"time"
 
 	gonanoid "github.com/matoous/go-nanoid/v2"
+	"gorm.io/datatypes"
 	"gorm.io/gorm"
 )
 
@@ -19,32 +22,34 @@ func CreateInvitationService(IdUser string, data *requests.CreateInvitationReque
 		return nil, errors.New("id not generate")
 	}
 
-	// if data.DataInvitation["time"] != nil {
-	// 	_, errParseTime := lib.ParseMapTimeAndReplace(data.DataInvitation, "time", []string{"15:04:05", "15:04"})
-	// 	if errParseTime != nil {
-	// 		return nil, errParseTime
-	// 	}
-	// }
+	if data.DataInvitation["time"] != nil {
+		_, errParseTime := lib.ParseMapTimeAndReplace(data.DataInvitation, "time", []string{"15:04:05", "15:04"})
+		if errParseTime != nil {
+			return nil, errParseTime
+		}
+	}
 
-	// if data.DataInvitation["date"] != nil {
-	// 	_, errParseDate := lib.ParseMapTimeAndReplace(data.DataInvitation, "date", []string{"2006-01-02"})
-	// 	if errParseDate != nil {
-	// 		return nil, errParseDate
-	// 	}
-	// }
+	if data.DataInvitation["date"] != nil {
+		_, errParseDate := lib.ParseMapTimeAndReplace(data.DataInvitation, "date", []string{"2006-01-02"})
+		if errParseDate != nil {
+			return nil, errParseDate
+		}
+	}
 
-	// jsonDataInvitation, err := json.Marshal(data.DataInvitation)
-	// if err != nil {
-	// 	return nil, errors.New("data invitation is error")
-	// }
+	jsonDataInvitation, err := json.Marshal(data.DataInvitation)
+	if err != nil {
+		return nil, errors.New("data invitation is error")
+	}
 
 	new_invitation := models.Invitation{
-		IdInvitation: id_invitation,
-		IdTemplate:   data.IdTemplate,
-		IdUser:       IdUser,
-		Name:         data.Name,
-		CreatedAt:    time.Now(),
-		UpdatedAt:    time.Now(),
+		IdInvitation:    id_invitation,
+		IdTemplate:      data.IdTemplate,
+		IdUser:          IdUser,
+		Name:            data.Name,
+		DataInvitation:  datatypes.JSON(jsonDataInvitation),
+		BackgroundImage: data.BackgroundImage,
+		CreatedAt:       time.Now(),
+		UpdatedAt:       time.Now(),
 	}
 
 	if err := config.DB.Create(new_invitation).Error; err != nil {

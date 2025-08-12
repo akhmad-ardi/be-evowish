@@ -13,6 +13,12 @@ func ValidateCreateInvitationRequest(data requests.CreateInvitationRequest) map[
 		"name": {
 			"required": "Nama acara wajib diisi",
 		},
+		"data_invitation": {
+			"required": "Data invitation wajib diisi",
+		},
+		"background_image": {
+			"required": "Background image wajib diisi",
+		},
 	}
 
 	return lib.ValidateWithCustomMessages(data, messages)
